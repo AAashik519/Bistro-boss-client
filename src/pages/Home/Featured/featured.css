@@ -1,0 +1,7 @@
+.feature-item{
+    background-color: black;
+    background: url('../../../assets/home/featured.jpg')  no-repeat center center fixed ;
+    /* opacity: 0.5; */
+   /* filter: brightness(0.7); */
+    
+} 
