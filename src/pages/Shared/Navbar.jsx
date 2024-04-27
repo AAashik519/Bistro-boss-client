@@ -4,16 +4,13 @@ const Navbar = () => {
   const navOptions = (
     <>
       <li>
-         <Link to='/'>Home</Link>
+        <Link to="/">Home</Link>
       </li>
       <li>
-      <Link to='/menu'>Our Menu</Link>
+        <Link to="/menu">Our Menu</Link>
       </li>
       <li>
-        <a>Item 3</a>
-      </li>
-      <li>
-        <a>Item 3</a>
+        <Link to="/order">Order</Link>
       </li>
     </>
   );
@@ -49,9 +46,7 @@ const Navbar = () => {
           <a className="btn btn-ghost text-xl">Bistro Boss</a>
         </div>
         <div className="navbar-end  hidden lg:flex">
-          <ul className="menu menu-horizontal px-1">
-        {navOptions}
-          </ul>
+          <ul className="menu menu-horizontal px-1">{navOptions}</ul>
         </div>
       </div>
     </div>
