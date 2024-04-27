@@ -6,8 +6,8 @@ const MenuCategory = ({items, btnText ,title ,coverImg ,subTitle}) => {
   return (
     <div className="my-10">
         {title &&  <Cover img={coverImg} title={title} subTitle={subTitle}/>}
-      <div className="grid md:grid-cols-2 gap-5">
-        {items.slice(0.6).map((item) => (
+      <div className="grid md:grid-cols-2 gap-5 my-10">
+        {items.slice(0,8).map((item) => (
           <MenuItem item={item} key={item._id} />
         ))}
       </div>
