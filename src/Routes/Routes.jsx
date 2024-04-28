@@ -21,10 +21,14 @@ import Order from "../pages/Order/Order/Order";
                 path:'/menu',
                 element: <Menu />
             },
+            // {
+            //     path:'/order',
+            //     element:<Order />
+            // },
             {
-                path:'/order',
+                path:'/order/:category',
                 element:<Order />
-            }
+            },
         ]
     }
   ])

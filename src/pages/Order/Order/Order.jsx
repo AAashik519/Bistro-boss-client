@@ -7,9 +7,15 @@ import { useState } from "react";
 import useMenu from "../../../hooks/useMenu";
 import FoodCard from "../../../components/FoodCard/FoodCard";
 import OrderTab from "../OrderTab/OrderTab";
+import { useParams } from "react-router-dom";
 const Order = () => {
-    const [tabIndex, setTabIndex] = useState(0);
-
+    const categories =['salad','pizza','soup','dessert','drinks']
+    const category = useParams()
+    const initialIndex= categories.indexOf(category)
+    const [tabIndex, setTabIndex] = useState(initialIndex);
+    // console.log(tabIndex);
+    // console.log(category);
+    // console.log(initialIndex);
     const [menu] = useMenu()
     const dessert=menu.filter(item =>item.category === 'dessert')
     const pizza=menu.filter(item =>item.category === 'pizza')
@@ -28,7 +34,7 @@ const Order = () => {
         subTitle={"Would you like to try a Dish"}
       />
       <div>
-        <Tabs defaultIndex={tabIndex} onSelect={(index) =>setTabIndex(index)} className='  '>
+        <Tabs defaultIndex={tabIndex} onSelect={(index) =>setTabIndex(index)} >
           <TabList className="flex  justify-center gap-6 mt-5    " >
             <Tab>Salad</Tab>
             <Tab>Pizza </Tab>

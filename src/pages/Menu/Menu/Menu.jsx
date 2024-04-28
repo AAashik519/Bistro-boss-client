@@ -32,17 +32,17 @@ const Menu = () => {
       <MenuCategory items={offered} btnText='Order Your favourite Food' />
 
         {/* Dessert Category  */}
-        <MenuCategory items={dessert} coverImg={desertImg} title={'Desserts'}  subTitle='Lorem ipsum dolor sit amet consectetur, adipisicing elit. Aliquam itaque alias harum amet, earum laudantium.
+        <MenuCategory items={dessert} coverImg={desertImg} title={'desserts'}  subTitle='Lorem ipsum dolor sit amet consectetur, adipisicing elit. Aliquam itaque alias harum amet, earum laudantium.
         '  btnText='Order Your favourite Food' />
         {/* Pizza Category  */}
-        <MenuCategory items={pizza} coverImg={pizzaImg} title={'Pizza'}  subTitle='Lorem ipsum dolor sit amet consectetur, adipisicing elit. Aliquam itaque alias harum amet, earum laudantium.
+        <MenuCategory items={pizza} coverImg={pizzaImg} title={'pizza'}  subTitle='Lorem ipsum dolor sit amet consectetur, adipisicing elit. Aliquam itaque alias harum amet, earum laudantium.
         '  btnText='Order Your favourite Food' />
 
         {/* salad Category  */}
-        <MenuCategory items={salad} coverImg={saladsImg} title={'Salads'}  subTitle='Lorem ipsum dolor sit amet consectetur, adipisicing elit. Aliquam itaque alias harum amet, earum laudantium.
+        <MenuCategory items={salad} coverImg={saladsImg} title={'salads'}  subTitle='Lorem ipsum dolor sit amet consectetur, adipisicing elit. Aliquam itaque alias harum amet, earum laudantium.
         '  btnText='Order Your favourite Food' />
         {/* Soup Category  */}
-        <MenuCategory items={soup} coverImg={soupImg} title={'Soups'}  subTitle='Lorem ipsum dolor sit amet consectetur, adipisicing elit. Aliquam itaque alias harum amet, earum laudantium.
+        <MenuCategory items={soup} coverImg={soupImg} title={'soup'}  subTitle='Lorem ipsum dolor sit amet consectetur, adipisicing elit. Aliquam itaque alias harum amet, earum laudantium.
         '  btnText='Order Your favourite Food' />
 
     </div>
