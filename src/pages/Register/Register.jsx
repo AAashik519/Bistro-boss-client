@@ -1,44 +1,63 @@
 import React, { useContext, useEffect, useRef, useState } from "react";
-import { Link } from "react-router-dom";
+import { Link, useLocation, useNavigate } from "react-router-dom";
 import { AuthContext } from "../../providers/AuthProvider";
 
-import { useForm } from "react-hook-form"
+import { useForm } from "react-hook-form";
 import toast from "react-hot-toast";
 import { Helmet } from "react-helmet-async";
 
 const Register = () => {
-  const { user, createUser } = useContext(AuthContext);
-  const {register,handleSubmit,reset , watch,formState: { errors },} = useForm()
-  // console.log(user);
+  const { user, createUser ,updateUserProfile} = useContext(AuthContext);
+  const {
+    register,
+    handleSubmit,
+    reset,
+    watch,
+    formState: { errors },
+  } = useForm();
+  const navigate = useNavigate();
+  const location = useLocation();
+  let from = location.state?.from?.pathname || "/";
 
-  // const handleRegister = (e) => {
-  //   e.preventDefault();
-  //   const form = e.target;
-  //   const email = form.email.value;
-  //   const password = form.password.value;
-  //   console.log(password, email);
+  const onSubmit =async (data) => {
+    console.log(data)
+    // console.log(watch("example"))
 
-  //   try {
-  //     createUser(email, password).then((result) => {
-  //       const user = result.user;
-  //       console.log(user);
-  //     });
-  //   } catch (error) {}
-  // };
+    const image = data.image[0]; // Get the uploaded image
+    const formData = new FormData();
+    formData.append("image", image);
 
-  const onSubmit = (data) =>{ 
-      createUser(data.email, data.password)
-      .then(result =>{
-        const loggedUser= result.user
-        console.log(loggedUser);
+      console.log("form",formData);
 
-      })
-    
-    // console.log(data)
-    reset()
-  }
+      const response = await fetch("https://api.imgbb.com/1/upload?key=a6254b3cd484e13c12810e9ae0858c8e", {
+        method: "POST",
+        body: formData,
+      });
+      const result = await response.json();
+      const imageUrl = result.data.url;
 
-  console.log(watch("example")) 
+      console.log(imageUrl);
+    try {
+      createUser(data.email, data.password).then((result) => {
+       
+        const loggedUser = result.user;
+        // console.log(loggedUser);
+        updateUserProfile(data.name,imageUrl)
+        .then(()=>{
+          console.log('user profile info updated');
+        })
+        .catch(error=>{
+          console.log(error.message);
+        })
+        toast.success("Successfully Register!");
+        navigate(from, { replace: true });
+      });
+
+      reset();
+    } catch (error) {
+      toast.error(error.message);
+    }
+  };
 
   return (
     <div>
@@ -62,19 +81,21 @@ const Register = () => {
                     htmlFor="name"
                     className="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
                   >
-                     Name
+                    Name
                   </label>
                   <input
-                   {...register("name" ,{required:true})}
-                   
+                    {...register("name", { required: true })}
                     type="text"
                     name="name"
                     id="name"
                     className="bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
                     placeholder="Enter Your name"
-                   
                   />
-                   {errors.name &&  <h1 className="text-red-500 mt-1">This field is required</h1>}
+                  {errors.name && (
+                    <h1 className="text-red-500 mt-1">
+                      This field is required
+                    </h1>
+                  )}
                 </div>
                 <div>
                   <label
@@ -84,15 +105,18 @@ const Register = () => {
                     Your email
                   </label>
                   <input
-                    {...register("email" ,{required:true}) }
+                    {...register("email", { required: true })}
                     type="email"
                     name="email"
                     id="email"
                     className="bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
                     placeholder="name@company.com"
-                  
                   />
-                   {errors.email &&  <h1 className="text-red-500 mt-1">This field is required</h1>}
+                  {errors.email && (
+                    <h1 className="text-red-500 mt-1">
+                      This field is required
+                    </h1>
+                  )}
                 </div>
                 <div>
                   <label
@@ -102,21 +126,45 @@ const Register = () => {
                     Password
                   </label>
                   <input
-                    {...register("password" ,{required:true ,
-                       minLength:8,
-                        maxLength:20,
-                        pattern:/^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[!@#\$%\^&\*]).{8,}$/
-                      })  }
+                    {...register("password", {
+                      required: true,
+                      minLength: 8,
+                      maxLength: 20,
+                      pattern:
+                        /^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[!@#\$%\^&\*]).{8,}$/,
+                    })}
                     type="password"
                     name="password"
                     id="password"
                     placeholder="••••••••"
                     className="bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
-                 
                   />
-                   {errors.password &&  <h1 className="text-red-500 mt-1">Password must be  one uppercase, one lowercase, one number and one special character and less 20</h1>}
+                  {errors.password && (
+                    <h1 className="text-red-500 mt-1">
+                      Password must be one uppercase, one lowercase, one number
+                      and one special character and less 20
+                    </h1>
+                  )}
                 </div>
-
+                <div>
+                  <label
+                    htmlFor="password"
+                    className="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
+                  >
+                    Password
+                  </label>
+                  <input
+                    {...register("image", { required: true })}
+                    name="image"
+                    id="image"
+                    type="file"
+                    accept="image/*"
+                    
+                    className="bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
+                  />
+          
+                </div>
+          
                 <button
                   type="submit"
                   className="w-full text-white bg-blue-600 hover:bg-blue-700 focus:ring-4 focus:outline-none focus:ring-primary-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-primary-600 dark:hover:bg-primary-700 dark:focus:ring-primary-800"
